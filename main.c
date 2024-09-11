@@ -119,33 +119,48 @@ float vmt_get_m(matrix m, int r, int c){
     return m->v[r*m->c+c];
 }
 
-void vmt_add_mmm(matrix a, matrix b, matrix r){
-    for (int i=0; i<r->r*r->c; i++){
-        r->v[i]=a->v[i]+b->v[i];
+void vmt_add_mmm(matrix a, matrix b, matrix res){
+    for (int i=0; i<res->r*res->c; i++){
+        res->v[i]=a->v[i]+b->v[i];
     }
 }
 
-void vmt_sub_mmm(matrix a, matrix b, matrix r){
-    for (int i=0; i<r->r*r->c; i++){
-        r->v[i]=a->v[i]-b->v[i];
+void vmt_sub_mmm(matrix a, matrix b, matrix res){
+    for (int i=0; i<res->r*res->c; i++){
+        res->v[i]=a->v[i]-b->v[i];
     }
 }
 
-void vmt_mul_mmm(matrix a, matrix b, matrix r){
-    for (int i=0; i<r->r*r->c; i++){
-        r->v[i]=a->v[i]*b->v[i];
+void vmt_mul_mmm(matrix a, matrix b, matrix res){
+    for (int i=0; i<res->r*res->c; i++){
+        res->v[i]=a->v[i]*b->v[i];
     }
 }
 
-void vmt_div_mmm(matrix a, matrix b, matrix r){
-    for (int i=0; i<r->r*r->c; i++){
-        r->v[i]=a->v[i]/b->v[i];
+void vmt_div_mmm(matrix a, matrix b, matrix res){
+    for (int i=0; i<res->r*res->c; i++){
+        res->v[i]=a->v[i]/b->v[i];
+    }
+}
+
+void vmt_matmul_mmm(matrix a, matrix b, matrix res){
+    for (int r=0; r<a->r; r++){
+        for (int c=0; c<b->c; c++){
+            res->v[r*b->c+c]=0.;
+            for (int m=0; m<a->c; m++){
+                res->v[r*b->c+c]=a->v[r*a->c+m]*b->v[m*b->c+c];
+            }
+        }
     }
 }
 
 int main(){
-    matrix a =vmt_rand_m(4, 3);
+    matrix a =vmt_zero_m(3, 3);
+    matrix b =vmt_zero_m(3, 3);
+    float arr[]={1,2,3,4,5,6,7,8,9};
+    vmt_write_m(a, arr, 0, 0, 9);
     vmt_print_m(a);
-    printf("%f\n", vmt_get_m(a, 1, 1));
+    vmt_matmul_mmm(a,a,b);
+    vmt_print_m(b);
     return 0;
 }
