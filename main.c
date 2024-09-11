@@ -32,6 +32,12 @@ void vmt_print_v(vector v){
     printf("\n");
 }
 
+void vmt_write_v(vector v, float * a, int s){
+    for(int i=0; i<s; i++){
+        v->v[i]=a[i];
+    }
+}
+
 struct matrix{
     int r, c;
     float * v;
