@@ -62,6 +62,14 @@ void vmt_div_vvv(vector a, vector b, vector r){
     }
 }
 
+float vmt_dot_vv(vector a, vector b){
+    float o = 0.;
+    for (int i=0; i<a->l; i++){
+        o+=a->v[i]*b->v[i];
+    }
+    return o;
+}
+
 struct matrix{
     int r, c;
     float * v;
@@ -128,12 +136,10 @@ void vmt_div_mmm(matrix a, matrix b, matrix r){
 }
 
 int main(){
-    vector a = vmt_zero_v(4);
-    vector b = vmt_zero_v(4);
-    float arr[]={1,2,3,4};
-    vmt_write_v(a, arr, 0, 3);
+    vector a = vmt_zero_v(7);
+    float arr[]={1,2,3,4, 5, 6, 7};
+    vmt_write_v(a, arr, 0, 6);
     vmt_print_v(a);
-    vmt_div_vvv(a, a, b);
-    vmt_print_v(b);
+    printf("%f\n", vmt_dot_vv(a, a));
     return 0;
 }
