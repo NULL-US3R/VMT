@@ -32,8 +32,8 @@ void vmt_print_v(vector v){
     printf("\n");
 }
 
-void vmt_write_v(vector v, float * a, int s){
-    for(int i=0; i<s; i++){
+void vmt_write_v(vector v, float * a, int pos, int s){
+    for(int i=pos; i<s; i++){
         v->v[i]=a[i];
     }
 }
@@ -97,8 +97,8 @@ void vmt_print_m(matrix m){
     }
 }
 
-void vmt_write_m(matrix m, float * a, int s){
-    for(int i=0; i<s; i++){
+void vmt_write_m(matrix m, float * a, int pos, int s){
+    for(int i=pos; i<s; i++){
         m->v[i]=a[i];
     }
 }
@@ -131,7 +131,7 @@ int main(){
     vector a = vmt_zero_v(4);
     vector b = vmt_zero_v(4);
     float arr[]={1,2,3,4};
-    vmt_write_v(a, arr, 3);
+    vmt_write_v(a, arr, 0, 3);
     vmt_print_v(a);
     vmt_div_vvv(a, a, b);
     vmt_print_v(b);
