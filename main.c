@@ -38,6 +38,30 @@ void vmt_write_v(vector v, float * a, int s){
     }
 }
 
+void vmt_add_vvv(vector a, vector b, vector r){
+    for (int i=0; i<r->l; i++){
+        r->v[i]=a->v[i]+b->v[i];
+    }
+}
+
+void vmt_sub_vvv(vector a, vector b, vector r){
+    for (int i=0; i<r->l; i++){
+        r->v[i]=a->v[i]-b->v[i];
+    }
+}
+
+void vmt_mul_vvv(vector a, vector b, vector r){
+    for (int i=0; i<r->l; i++){
+        r->v[i]=a->v[i]*b->v[i];
+    }
+}
+
+void vmt_div_vvv(vector a, vector b, vector r){
+    for (int i=0; i<r->l; i++){
+        r->v[i]=a->v[i]/b->v[i];
+    }
+}
+
 struct matrix{
     int r, c;
     float * v;
@@ -79,14 +103,37 @@ void vmt_write_m(matrix m, float * a, int s){
     }
 }
 
-void vmt_add_mm(matrix a, matrix b, matrix r){
+void vmt_add_mmm(matrix a, matrix b, matrix r){
     for (int i=0; i<r->r*r->c; i++){
         r->v[i]=a->v[i]+b->v[i];
     }
 }
 
+void vmt_sub_mmm(matrix a, matrix b, matrix r){
+    for (int i=0; i<r->r*r->c; i++){
+        r->v[i]=a->v[i]-b->v[i];
+    }
+}
+
+void vmt_mul_mmm(matrix a, matrix b, matrix r){
+    for (int i=0; i<r->r*r->c; i++){
+        r->v[i]=a->v[i]*b->v[i];
+    }
+}
+
+void vmt_div_mmm(matrix a, matrix b, matrix r){
+    for (int i=0; i<r->r*r->c; i++){
+        r->v[i]=a->v[i]/b->v[i];
+    }
+}
+
 int main(){
     vector a = vmt_zero_v(4);
+    vector b = vmt_zero_v(4);
+    float arr[]={1,2,3,4};
+    vmt_write_v(a, arr, 3);
     vmt_print_v(a);
+    vmt_div_vvv(a, a, b);
+    vmt_print_v(b);
     return 0;
 }
