@@ -38,6 +38,10 @@ void vmt_write_v(vector v, float * a, int pos, int s){
     }
 }
 
+float vmt_get_v(vector v, int i){
+    return v->v[i];
+}
+
 void vmt_add_vvv(vector a, vector b, vector r){
     for (int i=0; i<r->l; i++){
         r->v[i]=a->v[i]+b->v[i];
@@ -111,6 +115,10 @@ void vmt_write_m(matrix m, float * a, int r, int c, int s){
     }
 }
 
+float vmt_get_m(matrix m, int r, int c){
+    return m->v[r*m->c+c];
+}
+
 void vmt_add_mmm(matrix a, matrix b, matrix r){
     for (int i=0; i<r->r*r->c; i++){
         r->v[i]=a->v[i]+b->v[i];
@@ -136,10 +144,8 @@ void vmt_div_mmm(matrix a, matrix b, matrix r){
 }
 
 int main(){
-    vector a = vmt_zero_v(7);
-    float arr[]={1,2,3,4, 5, 6, 7};
-    vmt_write_v(a, arr, 0, 6);
-    vmt_print_v(a);
-    printf("%f\n", vmt_dot_vv(a, a));
+    matrix a =vmt_rand_m(4, 3);
+    vmt_print_m(a);
+    printf("%f\n", vmt_get_m(a, 1, 1));
     return 0;
 }
