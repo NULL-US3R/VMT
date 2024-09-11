@@ -97,8 +97,8 @@ void vmt_print_m(matrix m){
     }
 }
 
-void vmt_write_m(matrix m, float * a, int pos, int s){
-    for(int i=pos; i<s; i++){
+void vmt_write_m(matrix m, float * a, int r, int c, int s){
+    for(int i=r*m->c+c; i<s; i++){
         m->v[i]=a[i];
     }
 }
