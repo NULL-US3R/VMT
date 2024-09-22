@@ -28,12 +28,35 @@ vmt_ndarr vmt_zero(int l,...){
     return o;
 }
 
-void vmt_print(vmt_ndarr a){
-    printf("{");
-    for (int i=0; i<a->size; i++){
-        printf(", %1.3f", a->vals[i]);
+void vmt_printvals(float * v, int * s, int level, int orig){
+    if (level==1){
+        printf("{");
+        for (int i=0; i<s[0]; i++){
+            if (i==0){
+                printf("%1.3f", v[i]);
+            }else{
+                printf(", %1.3f", v[i]);
+            }
+        }
+        printf("}");
+    }else{
+        printf("{");
+        for (int i=0; i<s[0]; i++){
+            if (!(i==0)){
+                printf(",\n");
+                for (int j=0; j<(orig-level+1); j++){
+                    printf(" ");
+                }
+            }
+            vmt_printvals(v+i*s[1], s+1, level-1, orig);
+        }
+        printf("}");
     }
-    printf("}\nshape(");
+}
+
+void vmt_print(vmt_ndarr a){
+    vmt_printvals(a->vals, a->shape, a->dims, a->dims);
+    printf("\nshape(");
     for (int i=0; i<a->dims; i++){
         if (i==0){
             printf("%i", a->shape[i]);
@@ -45,7 +68,5 @@ void vmt_print(vmt_ndarr a){
 }
 
 int main(){
-    vmt_ndarr a = vmt_zero(2, 5, 2);
-    vmt_print(a);
     return 0;
 }
