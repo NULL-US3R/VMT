@@ -50,6 +50,28 @@ vmt_ndarr vmt_contig(int l,...){
     return o;
 }
 
+vmt_ndarr vmt_rand(int l,...){
+    va_list args;
+    vmt_ndarr o = (vmt_ndarr)malloc(sizeof(struct vmt_ndarr));
+    o->dims=l;
+    o->shape = (int *)malloc(l*sizeof(int));
+    va_start(args, l);
+    for (int i=0; i<l; i++){
+        o->shape[i]=va_arg(args, int);
+    }
+    va_end(args);
+    int c=1;
+    for (int i=0; i<l; i++){
+        c*=o->shape[i];
+    }
+    o->size=c;
+    o->vals=(float *)malloc(c*sizeof(float));
+    for (int i=0; i<c; i++){
+        o->vals[i] = (float)(random()%1000)/1000;
+    }
+    return o;
+}
+
 void vmt_print(vmt_ndarr a){
     printf("{");
     for (int i=0; i<a->size; i++){
@@ -69,7 +91,7 @@ void vmt_print(vmt_ndarr a){
         for (int k=0; k<count; k++){
             printf("{");
         }
-        printf("%.1f", a->vals[i]);
+        printf("%1.3f", a->vals[i]);
         s=a->size;
         for (int j=0; j<a->dims-1; j++){
             s=s/a->shape[j];
@@ -88,7 +110,7 @@ void vmt_print(vmt_ndarr a){
 }
 
 int main(){
-    vmt_ndarr a = vmt_contig(3, 4, 3, 5);
+    vmt_ndarr a = vmt_rand(3, 4, 3, 5);
     vmt_print(a);
     return 0;
 }
