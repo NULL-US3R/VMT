@@ -109,8 +109,59 @@ void vmt_print(vmt_ndarr a){
     printf("}\n");
 }
 
+void vmt_add_aa(vmt_ndarr a, vmt_ndarr b, vmt_ndarr res){
+    for (int i=0; i<res->size; i++){
+        res->vals[i]=a->vals[i]+b->vals[i];
+    }
+}
+
+void vmt_add_af(vmt_ndarr a, float b, vmt_ndarr res){
+    for (int i=0; i<res->size; i++){
+        res->vals[i]=a->vals[i]+b;
+    }
+}
+
+void vmt_sub_aa(vmt_ndarr a, vmt_ndarr b, vmt_ndarr res){
+    for (int i=0; i<res->size; i++){
+        res->vals[i]=a->vals[i]-b->vals[i];
+    }
+}
+
+void vmt_sub_af(vmt_ndarr a, float b, vmt_ndarr res){
+    for (int i=0; i<res->size; i++){
+        res->vals[i]=a->vals[i]-b;
+    }
+}
+
+void vmt_mul_aa(vmt_ndarr a, vmt_ndarr b, vmt_ndarr res){
+    for (int i=0; i<res->size; i++){
+        res->vals[i]=a->vals[i]*b->vals[i];
+    }
+}
+
+void vmt_mul_af(vmt_ndarr a, float b, vmt_ndarr res){
+    for (int i=0; i<res->size; i++){
+        res->vals[i]=a->vals[i]*b;
+    }
+}
+
+void vmt_div_aa(vmt_ndarr a, vmt_ndarr b, vmt_ndarr res){
+    for (int i=0; i<res->size; i++){
+        res->vals[i]=a->vals[i]/b->vals[i];
+    }
+}
+
+void vmt_div_af(vmt_ndarr a, float b, vmt_ndarr res){
+    for (int i=0; i<res->size; i++){
+        res->vals[i]=a->vals[i]/b;
+    }
+}
+
 int main(){
-    vmt_ndarr a = vmt_rand(3, 4, 3, 5);
+    vmt_ndarr a = vmt_rand(2, 4, 3), b = vmt_rand(2, 4, 3), c = vmt_zero(2, 4, 3);
     vmt_print(a);
+    vmt_print(b);
+    vmt_div_aa(a, b, c);
+    vmt_print(c);
     return 0;
 }
