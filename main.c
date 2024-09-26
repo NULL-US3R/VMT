@@ -72,6 +72,12 @@ vmt_ndarr vmt_rand(int l,...){
     return o;
 }
 
+void vmt_free(vmt_ndarr a){
+    free(a->vals);
+    free(a->shape);
+    free(a);
+}
+
 void vmt_print(vmt_ndarr a){
     printf("{");
     for (int i=0; i<a->size; i++){
@@ -115,6 +121,12 @@ void vmt_add_aa(vmt_ndarr a, vmt_ndarr b, vmt_ndarr res){
     }
 }
 
+void vmt_add_lpd_aa(vmt_ndarr a, vmt_ndarr b, vmt_ndarr res){
+    for (int i=0; i<res->size; i++){
+        res->vals[i]=a->vals[i]+b->vals[i%b->size];
+    }
+}
+
 void vmt_add_af(vmt_ndarr a, float b, vmt_ndarr res){
     for (int i=0; i<res->size; i++){
         res->vals[i]=a->vals[i]+b;
@@ -124,6 +136,12 @@ void vmt_add_af(vmt_ndarr a, float b, vmt_ndarr res){
 void vmt_sub_aa(vmt_ndarr a, vmt_ndarr b, vmt_ndarr res){
     for (int i=0; i<res->size; i++){
         res->vals[i]=a->vals[i]-b->vals[i];
+    }
+}
+
+void vmt_sub_lpd_aa(vmt_ndarr a, vmt_ndarr b, vmt_ndarr res){
+    for (int i=0; i<res->size; i++){
+        res->vals[i]=a->vals[i]-b->vals[i%b->size];
     }
 }
 
@@ -139,6 +157,12 @@ void vmt_mul_aa(vmt_ndarr a, vmt_ndarr b, vmt_ndarr res){
     }
 }
 
+void vmt_mul_lpd_aa(vmt_ndarr a, vmt_ndarr b, vmt_ndarr res){
+    for (int i=0; i<res->size; i++){
+        res->vals[i]=a->vals[i]*b->vals[i%b->size];
+    }
+}
+
 void vmt_mul_af(vmt_ndarr a, float b, vmt_ndarr res){
     for (int i=0; i<res->size; i++){
         res->vals[i]=a->vals[i]*b;
@@ -151,17 +175,26 @@ void vmt_div_aa(vmt_ndarr a, vmt_ndarr b, vmt_ndarr res){
     }
 }
 
+void vmt_div_lpd_aa(vmt_ndarr a, vmt_ndarr b, vmt_ndarr res){
+    for (int i=0; i<res->size; i++){
+        res->vals[i]=a->vals[i]/b->vals[i%b->size];
+    }
+}
+
 void vmt_div_af(vmt_ndarr a, float b, vmt_ndarr res){
     for (int i=0; i<res->size; i++){
         res->vals[i]=a->vals[i]/b;
     }
 }
 
+
+
 int main(){
-    vmt_ndarr a = vmt_rand(2, 4, 3), b = vmt_rand(2, 4, 3), c = vmt_zero(2, 4, 3);
+    vmt_ndarr a = vmt_contig(3, 5, 4, 3), b = vmt_contig(2, 4, 3);
     vmt_print(a);
+    vmt_add_af(b, 1, b);
     vmt_print(b);
-    vmt_div_aa(a, b, c);
-    vmt_print(c);
+    vmt_add_lpd_aa(a, b, a);
+    vmt_print(a);
     return 0;
 }
