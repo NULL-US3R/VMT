@@ -115,6 +115,12 @@ void vmt_print(vmt_ndarr a){
     printf("}\n");
 }
 
+void vmt_write(vmt_ndarr a, float * f, int s){
+    for (int i=0; i<s; i++){
+        a->vals[i]=f[i];
+    }
+}
+
 void vmt_add_aa(vmt_ndarr a, vmt_ndarr b, vmt_ndarr res){
     for (int i=0; i<res->size; i++){
         res->vals[i]=a->vals[i]+b->vals[i];
@@ -187,14 +193,38 @@ void vmt_div_af(vmt_ndarr a, float b, vmt_ndarr res){
     }
 }
 
+float vmt_dot_aa(vmt_ndarr a, vmt_ndarr b){
+    float o=0;
+    for (int i=0; i<a->size; i++){
+        o+=a->vals[i]*b->vals[i];
+    }
+    return o;
+}
 
+void vmt_matmul_aa(vmt_ndarr a, vmt_ndarr b, vmt_ndarr res){
+    int rs = res->shape[res->dims-2];
+    int cs = res->shape[res->dims-1];
+    int ms = a->shape[a->dims-1];
+    int ress = rs*cs;
+    int as = rs*ms;
+    int bs = ms*cs;
+    for (int i=0; i<res->size/ress; i++){
+        for (int r=0; r<rs; r++){
+            for (int c=0; c<cs; c++){
+                res->vals[i*ress+(r*cs+c)]=0;
+                for (int m=0; m<ms; m++){
+                    res->vals[i*ress+(r*cs+c)]+=a->vals[i*as+(r*ms+m)]*b->vals[i*bs+(m*cs+c)];
+                }
+            }
+        }
+    }
+}
 
 int main(){
-    vmt_ndarr a = vmt_contig(3, 5, 4, 3), b = vmt_contig(2, 4, 3);
+    vmt_ndarr a = vmt_contig(3, 2, 3, 2), b = vmt_contig(3, 2, 2, 4), r = vmt_zero(3, 2, 3, 4);
     vmt_print(a);
-    vmt_add_af(b, 1, b);
     vmt_print(b);
-    vmt_add_lpd_aa(a, b, a);
-    vmt_print(a);
+    vmt_matmul_aa(a, b, r);
+    vmt_print(r);
     return 0;
 }
