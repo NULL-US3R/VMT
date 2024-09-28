@@ -1,1 +1,1 @@
-(WIP) Vector MAtrix and Tensor header and library for c
+(WIP) ndarray implementation with some functions for c
