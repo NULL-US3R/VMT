@@ -1,1 +1,1 @@
-(WIP) ndarray implementation with some functions for c
+ndarray implementation with some functions for c
