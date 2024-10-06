@@ -193,7 +193,7 @@ void vmt_div_af(vmt_ndarr a, float b, vmt_ndarr res){
     }
 }
 
-float vmt_dot_aa(vmt_ndarr a, vmt_ndarr b){
+float vmt_dot(vmt_ndarr a, vmt_ndarr b){
     float o=0;
     for (int i=0; i<a->size; i++){
         o+=a->vals[i]*b->vals[i];
