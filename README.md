@@ -1,4 +1,4 @@
-VMT(Vectors, Matrices and Tensors) header is an ndarray implementation with some functions for c language
+VMT(Vectors, Matrices and Tensors) header is an ndarray implementation with some functions for c language. <br />
 ROADMAP(todo): <br/>
 1.convolution <br />
 2.openmp optimizations <br />
