@@ -201,6 +201,19 @@ float vmt_dot(vmt_ndarr a, vmt_ndarr b){
     return o;
 }
 
+void vmt_trp2d(vmt_ndarr a, vmt_ndarr res){
+    int rs = a->shape[res->dims-2];
+    int cs = a->shape[res->dims-1];
+    int ress = rs*cs;
+    for(int i=0; i<a->size/ress; i++){
+        for(int r=0; r<rs; r++){
+            for(int c=0; c<cs; c++){
+                res->vals[i*ress+(c*rs+r)]=a->vals[i*ress+(r*cs+c)];
+            }
+        }
+    }
+}
+
 void vmt_matmul(vmt_ndarr a, vmt_ndarr b, vmt_ndarr res){
     int rs = res->shape[res->dims-2];
     int cs = res->shape[res->dims-1];
