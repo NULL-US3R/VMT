@@ -232,3 +232,43 @@ void vmt_matmul(vmt_ndarr a, vmt_ndarr b, vmt_ndarr res){
         }
     }
 }
+
+void vmt_matmul_trpa(vmt_ndarr a, vmt_ndarr b, vmt_ndarr res){
+    int rs = res->shape[res->dims-2];
+    int cs = res->shape[res->dims-1];
+    int ms = a->shape[a->dims-1];
+    int ress = rs*cs;
+    int as = rs*ms;
+    int bs = ms*cs;
+    for (int i=0; i<res->size/ress; i++){
+        for (int r=0; r<rs; r++){
+            for (int c=0; c<cs; c++){
+                res->vals[i*ress+(r*cs+c)]=0;
+                for (int m=0; m<ms; m++){
+                    res->vals[i*ress+(r*cs+c)]+=a->vals[i*as+(m*rs+r)]*b->vals[i*bs+(m*cs+c)];
+                }
+            }
+        }
+    }
+}
+
+void vmt_matmul_trpb(vmt_ndarr a, vmt_ndarr b, vmt_ndarr res){
+    int rs = res->shape[res->dims-2];
+    int cs = res->shape[res->dims-1];
+    int ms = a->shape[a->dims-1];
+    int ress = rs*cs;
+    int as = rs*ms;
+    int bs = ms*cs;
+    for (int i=0; i<res->size/ress; i++){
+        for (int r=0; r<rs; r++){
+            for (int c=0; c<cs; c++){
+                res->vals[i*ress+(r*cs+c)]=0;
+                for (int m=0; m<ms; m++){
+                    res->vals[i*ress+(r*cs+c)]+=a->vals[i*as+(r*ms+m)]*b->vals[i*bs+(c*ms+m)];
+                }
+            }
+        }
+    }
+}
+
+void vmt_conv();
