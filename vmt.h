@@ -215,6 +215,62 @@ void vmt_trp2d(vmt_ndarr a, vmt_ndarr res){
 }
 
 void vmt_matmul(vmt_ndarr a, vmt_ndarr b, vmt_ndarr res){
+    int rs = res->shape[0];
+    int cs = res->shape[1];
+    int ms = a->shape[1];
+    for (int r=0; r<rs; r++){
+        for (int c=0; c<cs; c++){
+            res->vals[r*cs+c]=0;
+            for (int m=0; m<ms; m++){
+                res->vals[r*cs+c]+=a->vals[r*ms+m]*b->vals[m*cs+c];
+            }
+        }
+    }
+}
+
+void vmt_matmul_trpa(vmt_ndarr a, vmt_ndarr b, vmt_ndarr res){
+    int rs = res->shape[0];
+    int cs = res->shape[1];
+    int ms = a->shape[1];
+    for (int r=0; r<rs; r++){
+        for (int c=0; c<cs; c++){
+            res->vals[r*cs+c]=0;
+            for (int m=0; m<ms; m++){
+                res->vals[r*cs+c]+=a->vals[m*rs+r]*b->vals[m*cs+c];
+            }
+        }
+    }
+}
+
+void vmt_matmul_trpb(vmt_ndarr a, vmt_ndarr b, vmt_ndarr res){
+    int rs = res->shape[0];
+    int cs = res->shape[1];
+    int ms = a->shape[1];
+    for (int r=0; r<rs; r++){
+        for (int c=0; c<cs; c++){
+            res->vals[r*cs+c]=0;
+            for (int m=0; m<ms; m++){
+                res->vals[r*cs+c]+=a->vals[r*ms+m]*b->vals[c*ms+m];
+            }
+        }
+    }
+}
+
+
+void vmt_trp2d_lpd(vmt_ndarr a, vmt_ndarr res){
+    int rs = a->shape[res->dims-2];
+    int cs = a->shape[res->dims-1];
+    int ress = rs*cs;
+    for(int i=0; i<a->size/ress; i++){
+        for(int r=0; r<rs; r++){
+            for(int c=0; c<cs; c++){
+                res->vals[i*ress+(c*rs+r)]=a->vals[i*ress+(r*cs+c)];
+            }
+        }
+    }
+}
+
+void vmt_matmul_lpd(vmt_ndarr a, vmt_ndarr b, vmt_ndarr res){
     int rs = res->shape[res->dims-2];
     int cs = res->shape[res->dims-1];
     int ms = a->shape[a->dims-1];
@@ -233,7 +289,7 @@ void vmt_matmul(vmt_ndarr a, vmt_ndarr b, vmt_ndarr res){
     }
 }
 
-void vmt_matmul_trpa(vmt_ndarr a, vmt_ndarr b, vmt_ndarr res){
+void vmt_matmul_trpa_lpd(vmt_ndarr a, vmt_ndarr b, vmt_ndarr res){
     int rs = res->shape[res->dims-2];
     int cs = res->shape[res->dims-1];
     int ms = a->shape[a->dims-1];
@@ -252,7 +308,7 @@ void vmt_matmul_trpa(vmt_ndarr a, vmt_ndarr b, vmt_ndarr res){
     }
 }
 
-void vmt_matmul_trpb(vmt_ndarr a, vmt_ndarr b, vmt_ndarr res){
+void vmt_matmul_trpb_lpd(vmt_ndarr a, vmt_ndarr b, vmt_ndarr res){
     int rs = res->shape[res->dims-2];
     int cs = res->shape[res->dims-1];
     int ms = a->shape[a->dims-1];
@@ -270,5 +326,3 @@ void vmt_matmul_trpb(vmt_ndarr a, vmt_ndarr b, vmt_ndarr res){
         }
     }
 }
-
-void vmt_conv();
