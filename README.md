@@ -1,9 +1,11 @@
 VMT(Vectors, Matrices and Tensors) header is an ndarray implementation with some functions for c language. <br />
 ROADMAP(todo): <br/>
-  1.convolution <br />
-  2.algorithmic optimizations <br/>
-  3.openmp <br />
-  4.x86-64 sse4.2/avx2 optimizations <br />
-  5.opengl backend <br />
-  6.vulkan backend <br />
-  
+  convolution <br />
+  algorithmic optimizations <br/>
+		intrinsics optimizations <br />
+  openmp <br />
+		openacc <br />
+  opengl backend <br />
+  vulkan backend <br />
+  opencl backend <br />
+		cuda/hip backend <br />
