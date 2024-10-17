@@ -3,8 +3,7 @@ ROADMAP(todo): <br/>
   convolution <br />
   algorithmic optimizations <br/>
 		intrinsics optimizations <br />
-  openmp <br />
-		openacc <br />
+  openmp/pthreads <br />
   opengl backend <br />
   vulkan backend <br />
   opencl backend <br />
